@@ -1,0 +1,35 @@
+[workspace]
+members = ["endorphin-client", "endorphin-server", "endorphin-common", "tests"]
+resolver = "2"
+
+[workspace.dependencies]
+# Async runtime
+tokio = { version = "1.0", features = ["full"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# CLI parsing
+clap = { version = "4.0", features = ["derive"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Logging and tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Network and async utilities
+futures = "0.3"
+bytes = "1.0"
+
+# Configuration
+toml = "0.8"
+serde_yaml = "0.9"
+notify = "6.0"
+
+# Testing
+proptest = "1.0"
+quickcheck = "1.0"

@@ -1,0 +1,29 @@
+[package]
+name = "endorphin-common"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+futures = { workspace = true }
+bytes = { workspace = true }
+toml = { workspace = true }
+serde_yaml = "0.9"
+notify = "6.0"
+tokio-rustls = "0.24"
+rustls = { version = "0.21", features = ["dangerous_configuration"] }
+rustls-pemfile = "1.0"
+webpki-roots = "0.25"
+regex = "1.0"
+uuid = { version = "1.0", features = ["v4"] }
+
+[dev-dependencies]
+proptest = { workspace = true }
+quickcheck = { workspace = true }
+tempfile = "3.0"

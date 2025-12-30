@@ -1,0 +1,73 @@
+# Remote ADB Server Configuration
+
+[server]
+bind_address = "0.0.0.0"
+port = 5555
+enable_auth = true
+max_connections = 10
+connection_timeout = 30
+enable_metrics = true
+
+[security]
+# IP addresses allowed to connect (empty means all allowed)
+ip_whitelist = []
+# Authentication token (leave empty to disable)
+auth_token = ""
+# Enable TLS encryption
+enable_tls = false
+# TLS certificate and key paths (required if enable_tls = true)
+tls_cert_path = ""
+tls_key_path = ""
+# Rate limiting: requests per minute per client
+rate_limit_requests_per_minute = 60
+
+[logging]
+level = "info"
+# Log file path (optional, logs to stdout if empty)
+file_path = ""
+# Maximum log file size in MB before rotation
+max_file_size_mb = 100
+# Maximum number of log files to keep
+max_files = 5
+# Enable JSON format for structured logging
+enable_json_format = false
+
+[adb]
+# ADB executable path (auto-detected if empty)
+adb_path = ""
+# Default timeout for ADB commands in seconds
+command_timeout = 30
+# Device polling interval in seconds
+device_poll_interval = 5
+# Maximum retries for ADB operations
+max_retries = 3
+
+[performance]
+# Log buffer size in lines per stream
+log_buffer_size = 1000
+# Heartbeat interval in seconds
+heartbeat_interval = 30
+# Stream buffer size in bytes
+stream_buffer_size = 8192
+# Maximum memory usage in MB
+max_memory_usage_mb = 512
+# Garbage collection interval in seconds
+gc_interval = 300
+# Enable compression for network transfers
+enable_compression = true
+
+[client]
+# Default server host for client connections
+default_host = "localhost"
+# Default server port for client connections
+default_port = 5555
+# Connection timeout in seconds
+connection_timeout = 30
+# Number of retry attempts for failed connections
+retry_attempts = 3
+# Enable automatic reconnection
+auto_reconnect = true
+# Initial reconnection delay in seconds
+reconnect_delay = 2
+# Maximum reconnection delay in seconds
+max_reconnect_delay = 30

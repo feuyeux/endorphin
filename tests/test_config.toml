@@ -1,0 +1,54 @@
+# Integration Test Configuration
+
+[test_environment]
+# Default timeout for individual tests (in seconds)
+default_test_timeout = 30
+
+# Total timeout for entire test suite (in seconds)
+suite_timeout = 300
+
+# Server configuration for tests
+server_host = "127.0.0.1"
+server_port_range = [15000, 16000]
+auth_token = "integration-test-token-12345"
+
+# Client configuration for tests
+client_timeout = 10
+client_retry_attempts = 2
+
+[test_categories]
+# Enable/disable test categories
+unit_tests = true
+integration_tests = true
+end_to_end_tests = true
+performance_tests = true
+stress_tests = false  # Disabled by default as they take longer
+
+[mock_environment]
+# Mock ADB configuration
+mock_devices = [
+    { device_id = "emulator-5554", name = "Android SDK built for x86", android_version = "11", api_level = 30 },
+    { device_id = "emulator-5556", name = "Pixel 4 API 31", android_version = "12", api_level = 31 },
+    { device_id = "device-12345", name = "Physical Device", android_version = "13", api_level = 33 }
+]
+
+# Mock log entries for testing
+generate_mock_logs = true
+mock_log_count = 100
+mock_log_levels = ["Verbose", "Debug", "Info", "Warn", "Error", "Fatal"]
+mock_log_tags = ["ActivityManager", "NetworkManager", "DatabaseHelper", "MemoryManager", "SystemServer"]
+
+[performance_thresholds]
+# Performance test thresholds
+max_connection_time_ms = 5000
+max_device_list_time_ms = 3000
+max_log_stream_start_time_ms = 2000
+max_memory_usage_mb = 100
+max_concurrent_connections = 10
+
+[logging]
+# Test logging configuration
+log_level = "debug"
+log_to_file = true
+log_file_path = "tests/test_execution.log"
+include_timestamps = true

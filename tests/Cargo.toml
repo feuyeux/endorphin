@@ -1,0 +1,39 @@
+[package]
+name = "endorphin-integration-tests"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "integration-test-runner"
+path = "main.rs"
+
+[[test]]
+name = "integration_tests"
+path = "integration_tests.rs"
+
+[[test]]
+name = "end_to_end_tests"
+path = "end_to_end_tests.rs"
+
+[[test]]
+name = "test_runner"
+path = "test_runner.rs"
+
+[dependencies]
+tokio = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+toml = { workspace = true }
+
+# Local dependencies
+endorphin-common = { path = "../endorphin-common" }
+endorphin-client = { path = "../endorphin-client" }
+endorphin-server = { path = "../endorphin-server" }
+
+[dev-dependencies]
+proptest = { workspace = true }
+quickcheck = { workspace = true }
