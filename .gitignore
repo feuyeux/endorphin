@@ -17,3 +17,5 @@ Thumbs.db
 
 # Configuration (may contain sensitive data)
 config.local.toml
+
+*.bkp

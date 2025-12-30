@@ -1,0 +1,276 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Endorphin Architecture" id="endorphin-arch">
+    <mxGraphModel dx="1826" dy="1118" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Endorphin - Remote ADB Logging System Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="400" y="20" width="800" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="client-layer" value="Client Layer" style="swimlane;html=1;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="50" y="100" width="320" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="client-app" value="Endorphin Client&#xa;(Terminal Application)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1" parent="client-layer" vertex="1">
+          <mxGeometry x="20" y="50" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="client-ui" value="UI Module&#xa;(ui.rs)&#xa;• Terminal Display&#xa;• Log Rendering&#xa;• Filter UI&#xa;• Stats Display" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="client-layer" vertex="1">
+          <mxGeometry x="20" y="130" width="130" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="client-connection" value="Connection Module&#xa;(connection.rs)&#xa;• RemoteConnectionManager&#xa;• Auto Reconnect&#xa;• State Management&#xa;• Request Handling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="client-layer" vertex="1">
+          <mxGeometry x="170" y="130" width="130" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="client-commands" value="Client Commands" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6" parent="client-layer" vertex="1">
+          <mxGeometry x="20" y="270" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="cmd-connect" value="connect" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" parent="client-layer" vertex="1">
+          <mxGeometry x="30" y="330" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cmd-devices" value="devices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" parent="client-layer" vertex="1">
+          <mxGeometry x="110" y="330" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cmd-logs" value="logs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" parent="client-layer" vertex="1">
+          <mxGeometry x="190" y="330" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cmd-stats" value="stats" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" parent="client-layer" vertex="1">
+          <mxGeometry x="30" y="370" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cmd-filter" value="filter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" parent="client-layer" vertex="1">
+          <mxGeometry x="110" y="370" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cmd-disconnect" value="disconnect" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" parent="client-layer" vertex="1">
+          <mxGeometry x="190" y="370" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="client-deps" value="Dependencies:&#xa;• Tokio (async runtime)&#xa;• Clap (CLI parsing)&#xa;• Crossterm (terminal UI)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=10;fontSize=10" parent="client-layer" vertex="1">
+          <mxGeometry x="20" y="420" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="network-layer" value="Network Layer" style="swimlane;html=1;startSize=30;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="440" y="100" width="320" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="network-protocol" value="TCP/TLS Network Protocol" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1" parent="network-layer" vertex="1">
+          <mxGeometry x="20" y="50" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="security-layer" value="Security Layer&#xa;(security.rs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=center;spacingLeft=10;verticalAlign=top;" parent="network-layer" vertex="1">
+          <mxGeometry x="20" y="110" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="auth-token" value="Token Authentication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" parent="network-layer" vertex="1">
+          <mxGeometry x="30" y="150" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ip-whitelist" value="IP Whitelisting" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" parent="network-layer" vertex="1">
+          <mxGeometry x="160" y="150" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tls-encrypt" value="TLS Encryption (Optional)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" parent="network-layer" vertex="1">
+          <mxGeometry x="30" y="185" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rate-limit" value="Rate Limiting" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" parent="network-layer" vertex="1">
+          <mxGeometry x="160" y="185" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="network-module" value="Network Module&#xa;(network.rs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=center;spacingLeft=10;verticalAlign=top;" parent="network-layer" vertex="1">
+          <mxGeometry x="20" y="230" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="conn-pool" value="Connection Pool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" parent="network-layer" vertex="1">
+          <mxGeometry x="35" y="270" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="msg-serialize" value="Message Serialization" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" parent="network-layer" vertex="1">
+          <mxGeometry x="165" y="270" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="backpressure" value="Backpressure Handling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" parent="network-layer" vertex="1">
+          <mxGeometry x="100" y="305" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="protocol-def" value="Protocol Definition:&#xa;• JSON-based messages&#xa;• Request/Response pattern&#xa;• Stream multiplexing&#xa;• Heartbeat mechanism" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=10;fontSize=10" parent="network-layer" vertex="1">
+          <mxGeometry x="20" y="350" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="perf-metrics" value="Performance:&#xa;• 10+ concurrent clients&#xa;• 1000+ logs/sec&#xa;• &lt;10ms latency" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=10;fontSize=10" parent="network-layer" vertex="1">
+          <mxGeometry x="20" y="430" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="server-layer" value="Server Layer" style="swimlane;html=1;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="830" y="100" width="320" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="server-app" value="Endorphin Server&#xa;(Main Application)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1" parent="server-layer" vertex="1">
+          <mxGeometry x="20" y="50" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="network-bridge" value="Network Bridge&#xa;(bridge.rs)&#xa;• Client Connection Mgmt&#xa;• Request Routing&#xa;• Response Handling&#xa;• Authentication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="server-layer" vertex="1">
+          <mxGeometry x="20" y="130" width="130" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="stream-manager" value="Stream Manager&#xa;(stream_manager.rs)&#xa;• Log Stream Control&#xa;• Multi-client Support&#xa;• Stream Status&#xa;• Event Distribution" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="server-layer" vertex="1">
+          <mxGeometry x="170" y="130" width="130" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="emulator-mgr" value="Emulator Manager&#xa;(emulator.rs)&#xa;• SDK Detection&#xa;• AVD Management&#xa;• Auto Start&#xa;• Health Monitoring" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;spacingLeft=10" parent="server-layer" vertex="1">
+          <mxGeometry x="20" y="270" width="280" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="server-features" value="Server Features:&#xa;• Automatic emulator startup&#xa;• Platform optimization (M1/M2, KVM)&#xa;• Concurrent client support&#xa;• Hot configuration reload" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=10;fontSize=10" parent="server-layer" vertex="1">
+          <mxGeometry x="20" y="390" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="common-layer" value="Common Library (endorphin-common)" style="swimlane;html=1;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="50" y="630" width="1100" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="common-types" value="Types&#xa;(types.rs)&#xa;• LogEntry&#xa;• DeviceInfo&#xa;• ConnectionConfig&#xa;• LogFilters" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="20" y="50" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-error" value="Error Handling&#xa;(error.rs)&#xa;• RemoteAdbError&#xa;• Error Types&#xa;• Error Conversion&#xa;• Logging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="170" y="50" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-adb" value="ADB Integration&#xa;(adb.rs)&#xa;• AdbExecutor&#xa;• Device Detection&#xa;• Command Execution&#xa;• Parser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="320" y="50" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-logcat" value="Logcat Processing&#xa;(logcat.rs)&#xa;• LogcatManager&#xa;• Stream Parser&#xa;• Entry Formatter&#xa;• Real-time Processing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="470" y="50" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-filter" value="Filter Engine&#xa;(filter.rs)&#xa;• Level Filtering&#xa;• Tag Matching&#xa;• Regex Pattern&#xa;• PID Filtering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="620" y="50" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-buffer" value="Buffer Management&#xa;(buffer.rs)&#xa;• Circular Buffer&#xa;• Smart Cleanup&#xa;• Time-based Filter&#xa;• Stats Tracking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="770" y="50" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-perf" value="Performance&#xa;(performance.rs)&#xa;• Metrics Collection&#xa;• Performance Monitor&#xa;• Counter&#xa;• Reporter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="920" y="50" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-opt" value="Optimization&#xa;(optimization.rs)&#xa;• Memory Optimizer&#xa;• CPU Optimizer&#xa;• Network Optimizer&#xa;• System Tuning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="20" y="184" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-config" value="Configuration&#xa;(config.rs)&#xa;• TOML/YAML Parser&#xa;• Env Overrides&#xa;• Validation&#xa;• Hot Reload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="170" y="184" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-logging" value="Logging&#xa;(logging.rs)&#xa;• Tracing Setup&#xa;• File Rotation&#xa;• Level Control&#xa;• Format Config" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="320" y="184" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-monitor" value="Monitoring&#xa;(monitoring.rs)&#xa;• Status Monitor&#xa;• Health Check&#xa;• Alert System&#xa;• Diagnostics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="common-layer" vertex="1">
+          <mxGeometry x="470" y="184" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="common-deps" value="Key Dependencies:&#xa;• Tokio (async runtime)  • Serde (serialization)  • Tracing (logging)&#xa;• Tokio-rustls (TLS)  • Futures (async utils)  • Regex (pattern matching)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=center;fontSize=12;" parent="common-layer" vertex="1">
+          <mxGeometry x="620" y="184" width="450" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="adb-layer" value="ADB / Android Layer" style="swimlane;html=1;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="1230" y="100" width="320" height="480" as="geometry" />
+        </mxCell>
+        <mxCell id="adb-server" value="ADB Server&#xa;(Android Debug Bridge)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" parent="adb-layer" vertex="1">
+          <mxGeometry x="20" y="50" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="android-device" value="Android Device/Emulator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12" parent="adb-layer" vertex="1">
+          <mxGeometry x="20" y="130" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="emulator-instance" value="Android Emulator&#xa;• Automatically Started&#xa;• Health Monitored&#xa;• Platform Optimized" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;spacingLeft=10" parent="adb-layer" vertex="1">
+          <mxGeometry x="20" y="190" width="130" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="physical-device" value="Physical Device&#xa;• USB Connected&#xa;• Wireless ADB&#xa;• USB Debugging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;spacingLeft=10" parent="adb-layer" vertex="1">
+          <mxGeometry x="170" y="190" width="130" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="logcat-output" value="Logcat Output Stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" parent="adb-layer" vertex="1">
+          <mxGeometry x="20" y="300" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="adb-commands" value="ADB Commands:&#xa;• adb devices&#xa;• adb logcat&#xa;• adb shell&#xa;• emulator -avd &lt;name&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=10;fontSize=10" parent="adb-layer" vertex="1">
+          <mxGeometry x="20" y="360" width="280" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="flow1" value="TCP/TLS&#xa;Requests" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066CC;fontSize=11;fontColor=#0066CC" parent="1" source="client-connection" target="network-protocol" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="290" />
+              <mxPoint x="400" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow2" value="Authenticated&#xa;Messages" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#0066CC;fontSize=11;fontColor=#0066CC" parent="1" source="network-protocol" target="network-bridge" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="170" />
+              <mxPoint x="790" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow3" value="ADB&#xa;Commands" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#009900;fontSize=11;fontColor=#009900" parent="1" source="stream-manager" target="adb-server" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1180" y="290" />
+              <mxPoint x="1180" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow4" value="Device&#xa;Control" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#009900;fontSize=11;fontColor=#009900" parent="1" source="adb-server" target="android-device" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flow5" value="Logcat&#xa;Stream" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#CC0000;fontSize=11;fontColor=#CC0000;dashed=1;entryX=1.008;entryY=0.7;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="stream-manager" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1370" y="390" />
+              <mxPoint x="1180" y="390" />
+              <mxPoint x="1180" y="314" />
+            </Array>
+            <mxPoint x="1370" y="400" as="sourcePoint" />
+            <mxPoint x="1110" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="flow6" value="Filtered&#xa;Logs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#CC0000;fontSize=11;fontColor=#CC0000;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="network-bridge" target="client-ui" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="915" y="220" />
+              <mxPoint x="800" y="220" />
+              <mxPoint x="800" y="70" />
+              <mxPoint x="30" y="70" />
+              <mxPoint x="30" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="use1" value="Uses" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#666666;dashed=1;fontSize=10" parent="1" source="client-app" target="common-types" edge="1">
+          <mxGeometry x="0.4182" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="610" />
+              <mxPoint x="130" y="610" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="use2" value="Uses" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#666666;dashed=1;fontSize=10" parent="1" source="server-app" target="common-adb" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="990" y="600" />
+              <mxPoint x="410" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="use3" value="Uses" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#666666;dashed=1;fontSize=10" parent="1" source="stream-manager" target="common-filter" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1070" y="620" />
+              <mxPoint x="690" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="test-layer" value="Test Suite" style="swimlane;html=1;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="50" y="1000" width="1100" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="unit-tests" value="Unit Tests&#xa;72+ tests&#xa;• Client: 9 tests&#xa;• Server: 9 tests&#xa;• Common: 54 tests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="test-layer" vertex="1">
+          <mxGeometry x="20" y="50" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="integration-tests" value="Integration Tests&#xa;• Client-Server Communication&#xa;• Connection Management&#xa;• Error Recovery&#xa;• Concurrent Clients" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="test-layer" vertex="1">
+          <mxGeometry x="290" y="50" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e2e-tests" value="End-to-End Tests&#xa;• Complete Workflows&#xa;• Mock ADB Environment&#xa;• Performance Testing&#xa;• Stress Testing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=10" parent="test-layer" vertex="1">
+          <mxGeometry x="560" y="50" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="test-tools" value="Test Infrastructure&#xa;• TestRunner&#xa;• MockAdbEnvironment&#xa;• TestServer/TestClient&#xa;• Test Fixtures" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;spacingLeft=10" parent="test-layer" vertex="1">
+          <mxGeometry x="830" y="50" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="Legend" style="swimlane;html=1;startSize=30;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="1230" y="630" width="320" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-data" value="Data Flow (Stream)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#CC0000;strokeWidth=2;dashed=1;fontSize=10" parent="legend" vertex="1">
+          <mxGeometry x="20" y="50" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-control" value="Control Flow" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0066CC;strokeWidth=2;fontSize=10" parent="legend" vertex="1">
+          <mxGeometry x="170" y="50" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-adb" value="ADB Communication" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#009900;strokeWidth=2;fontSize=10" parent="legend" vertex="1">
+          <mxGeometry x="20" y="90" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-dep" value="Dependency (Uses)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;strokeWidth=1;dashed=1;fontSize=10" parent="legend" vertex="1">
+          <mxGeometry x="170" y="90" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-info" value="Key Features:&#xa;• Async/Await architecture&#xa;• Zero-copy where possible&#xa;• Configurable buffering&#xa;• Automatic reconnection&#xa;• Platform-optimized&#xa;• Production-ready&#xa;&#xa;Performance:&#xa;• 10+ concurrent clients&#xa;• 1000+ logs/second&#xa;• &lt;10ms latency&#xa;• 512MB default buffer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;align=left;spacingLeft=10;fontSize=10" parent="legend" vertex="1">
+          <mxGeometry x="20" y="140" width="280" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="build-info" value="Build Info: Rust 1.91+ | Tokio async runtime | Zero compiler warnings | 72+ passing tests" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;fontColor=#666666" parent="1" vertex="1">
+          <mxGeometry x="50" y="1170" width="1500" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

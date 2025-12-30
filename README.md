@@ -299,7 +299,7 @@ export REMOTE_ADB_MAX_CONNECTIONS="20"
 
 ## Architecture
 
-### System Components
+![](architecture.drawio.png)
 
 1. **Endorphin Server**: Manages emulators, bridges ADB commands, and streams logs to clients
 2. **Endorphin Client**: Connects to server, displays real-time logs, and sends commands
@@ -307,6 +307,8 @@ export REMOTE_ADB_MAX_CONNECTIONS="20"
 4. **Network Bridge**: Handles client connections, authentication, and request routing
 5. **Log Stream Manager**: Processes, filters, and distributes logcat streams efficiently
 6. **Security Layer**: Provides authentication, authorization, encryption, and rate limiting
+
+### System Components
 
 ### Network Protocol
 
