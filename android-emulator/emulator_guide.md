@@ -4,10 +4,62 @@
 
 ## 前置条件
 
+### Linux/macOS
+
 确保已设置环境变量：
 ```bash
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin
+```
+
+### Windows
+
+**本机配置示例（SDK 路径：D:\zoo\Android\Sdk）**
+
+在 PowerShell 中设置环境变量（临时）：
+```powershell
+$env:ANDROID_HOME = "D:\zoo\Android\Sdk"
+$env:PATH = "$env:PATH;$env:ANDROID_HOME\emulator;$env:ANDROID_HOME\platform-tools;$env:ANDROID_HOME\cmdline-tools\latest\bin"
+```
+
+或在 CMD 中（临时）：
+```cmd
+set ANDROID_HOME=D:\zoo\Android\Sdk
+set PATH=%PATH%;%ANDROID_HOME%\emulator;%ANDROID_HOME%\platform-tools;%ANDROID_HOME%\cmdline-tools\latest\bin
+```
+
+**永久设置环境变量（推荐）：**
+
+PowerShell（管理员权限）：
+```powershell
+[System.Environment]::SetEnvironmentVariable('ANDROID_HOME', 'D:\zoo\Android\Sdk', 'User')
+$currentPath = [System.Environment]::GetEnvironmentVariable('Path', 'User')
+$newPath = "$currentPath;D:\zoo\Android\Sdk\emulator;D:\zoo\Android\Sdk\platform-tools;D:\zoo\Android\Sdk\cmdline-tools\latest\bin"
+[System.Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
+```
+
+或通过系统设置：
+1. 右键"此电脑" → "属性" → "高级系统设置" → "环境变量"
+2. 在"用户变量"中新建：
+   - 变量名：`ANDROID_HOME`
+   - 变量值：`D:\zoo\Android\Sdk`
+3. 编辑 `Path` 变量，添加：
+   - `D:\zoo\Android\Sdk\emulator`
+   - `D:\zoo\Android\Sdk\platform-tools`
+   - `D:\zoo\Android\Sdk\cmdline-tools\latest\bin`
+
+**通用配置（适用于标准安装路径）：**
+
+PowerShell:
+```powershell
+$env:ANDROID_HOME = "$env:LOCALAPPDATA\Android\Sdk"
+$env:PATH = "$env:PATH;$env:ANDROID_HOME\emulator;$env:ANDROID_HOME\platform-tools;$env:ANDROID_HOME\cmdline-tools\latest\bin"
+```
+
+CMD:
+```cmd
+set ANDROID_HOME=%LOCALAPPDATA%\Android\Sdk
+set PATH=%PATH%;%ANDROID_HOME%\emulator;%ANDROID_HOME%\platform-tools;%ANDROID_HOME%\cmdline-tools\latest\bin
 ```
 
 ## 核心操作
@@ -36,11 +88,33 @@ sdkmanager --list | grep "system-images"
 ```
 
 **查看本地已安装的镜像（推荐）：**
+
+Linux/macOS:
 ```bash
 find $ANDROID_HOME/system-images -maxdepth 3 -type d -name "x86_64" 2>/dev/null | sed 's|.*/system-images/||'
 ```
 
-示例输出（已本地存在）：
+Windows (PowerShell):
+```powershell
+Get-ChildItem -Path "$env:ANDROID_HOME\system-images" -Recurse -Directory -Filter "x86_64" | ForEach-Object { $_.FullName -replace '.*\\system-images\\', '' }
+```
+
+Windows (CMD):
+```cmd
+dir /s /b "%ANDROID_HOME%\system-images\*x86_64" | findstr /R "system-images"
+```
+
+**本机示例（D:\zoo\Android\Sdk）：**
+```powershell
+Get-ChildItem -Path "D:\zoo\Android\Sdk\system-images" -Recurse -Directory -Filter "x86_64" | ForEach-Object { $_.FullName -replace '.*\\system-images\\', '' }
+```
+
+本机输出示例：
+```
+android-35\google_apis\x86_64
+```
+
+通用输出示例：
 ```
 android-36/google_apis_playstore/x86_64
 android-36.1/google_apis_playstore/x86_64
@@ -52,137 +126,144 @@ android-36.1/google_apis_playstore/x86_64
 
 使用 `avdmanager` 创建虚拟设备：
 
+**本机示例（使用 android-35）：**
+```bash
+avdmanager create avd \
+  -n endorphin_test \
+  -d pixel_6 \
+  -k "system-images;android-35;google_apis;x86_64" \
+  -f
+```
+
+**通用示例：**
 ```bash
 avdmanager create avd \
   -n my_emulator \
   -d pixel_6 \
   -k "system-images;android-36;google_apis_playstore;x86_64" \
-  -c 4096M \
   -f
 ```
 
 参数说明：
 - `-n my_emulator` - AVD 名称
 - `-d pixel_6` - 设备配置（可用：pixel_6, pixel_5, pixel_4, Nexus_5X 等）
-- `-k "system-images;..."` - 系统镜像路径
-- `-c 4096M` - SD 卡大小
+- `-k "system-images;..."` - 系统镜像路径（必须与本地已安装的镜像匹配）
 - `-f` - 若已存在则覆盖
 
-#### 手动创建 AVD（当 avdmanager 失败时）
+**创建后优化配置（可选）：**
 
-如果 avdmanager 出现 "Package path is not valid" 错误，可手动创建配置：
+编辑 AVD 配置文件以提升性能：
+- Windows: `%USERPROFILE%\.android\avd\<avd_name>.avd\config.ini`
+- Linux/macOS: `~/.android/avd/<avd_name>.avd/config.ini`
 
-```bash
-# 创建 AVD 目录
-mkdir -p ~/.android/avd/my_emulator.avd
-
-# 创建 config.ini
-cat > ~/.android/avd/my_emulator.avd/config.ini << 'EOF'
-hw.accelerometer=yes
-hw.audioInput=yes
-hw.audioOutput=yes
-hw.battery=yes
-hw.camera.back=emulated
-hw.camera.front=emulated
-hw.cpu.arch=x86_64
-hw.cpu.ncore=4
-hw.dpad=no
-hw.gps=yes
-hw.gpu.enabled=yes
-hw.gpu.mode=swiftshader_indirect
-hw.gyroscope=yes
-hw.initialOrientation=Portrait
-hw.keyboard=yes
-hw.lcd.density=420
-hw.lcd.height=2400
-hw.lcd.width=1080
-hw.mainKeys=no
-hw.ramSize=4096
-hw.sdCard=yes
-hw.sdCard.size=512M
-hw.sensors.orientation=yes
-hw.sensors.proximity=yes
-image.sysdir.1=system-images/android-36/google_apis_playstore/x86_64/
-kernel.qemu=yes
-vm.heapSize=512
-EOF
-
-# 创建 ini 条目文件
-cat > ~/.android/avd/my_emulator.ini << 'EOF'
-avd.ini.encoding=UTF-8
-path=/home/hanl5/.android/avd/my_emulator.avd
-path.rel=avd/my_emulator.avd
-target=android-36
-EOF
+推荐配置：
+```ini
+hw.ramSize = 6144          # 内存 6GB（根据系统内存调整，建议 4-8GB）
+hw.cpu.ncore = 4           # CPU 核心数（根据系统 CPU 调整）
+hw.gpu.enabled = yes       # 启用 GPU
+hw.gpu.mode = host         # 使用主机 GPU（性能最佳）
 ```
 
-验证创建成功：
-```bash
-emulator -list-avds | grep my_emulator
+**本机优化脚本（PowerShell）：**
+```powershell
+# 修改 AVD 配置
+$avdPath = "$env:USERPROFILE\.android\avd\endorphin_test.avd\config.ini"
+$config = Get-Content $avdPath
+$config = $config -replace 'hw.ramSize\s*=\s*.*', 'hw.ramSize = 6144'
+$config = $config -replace 'hw.gpu.enabled\s*=\s*.*', 'hw.gpu.enabled = yes'
+$config = $config -replace 'hw.gpu.mode\s*=\s*.*', 'hw.gpu.mode = host'
+$config | Set-Content $avdPath
 ```
 
 ### 3. 启动模拟器
 
-#### 基础启动
+#### 检查硬件加速支持
 
+启动前先检查系统支持的加速方式：
+```bash
+emulator -accel-check
+```
+
+#### 基础启动（推荐）
+
+**本机启动（Windows，已优化 GPU）：**
+```powershell
+emulator -avd endorphin_test
+```
+
+**通用启动：**
 ```bash
 emulator -avd my_emulator
 ```
 
-#### 带选项启动（推荐）
+模拟器会自动使用 config.ini 中配置的 GPU 和内存设置。
 
-```bash
-emulator -avd my_emulator \
-  -verbose \
-  -show-kernel \
-  -gpu swiftshader_indirect \
-  -accel kvm \
-  -audio pulse \
-  -no-window
+#### 带选项启动（高级）
+
+**Windows (本机推荐配置):**
+
+如果 AVD 已配置 GPU，直接启动即可：
+```powershell
+emulator -avd endorphin_test
 ```
 
-常用选项：
-- `-verbose` - 显示详细日志
-- `-show-kernel` - 显示内核启动信息
-- `-gpu swiftshader_indirect` - 使用软件渲染（兼容性更好）
+如果需要覆盖 GPU 设置：
+```powershell
+# 使用主机 GPU（性能最佳，需要良好的驱动支持）
+emulator -avd endorphin_test -gpu host
+
+# 使用软件渲染（兼容性最好，性能较低）
+emulator -avd endorphin_test -gpu swiftshader_indirect
+
+# 使用 ANGLE（Windows 推荐，平衡性能和兼容性）
+emulator -avd endorphin_test -gpu angle_indirect
+```
+
+**Linux:**
+```bash
+emulator -avd my_emulator \
+  -gpu host \
+  -accel kvm
+```
+
+**macOS:**
+```bash
+emulator -avd my_emulator \
+  -gpu host \
+  -accel hvf
+```
+
+#### GPU 模式选择指南
+
+- `auto` (默认) - 自动选择，推荐用于大多数情况
+- `host` - 使用主机 GPU，性能最佳，需要良好的驱动支持
+- `angle_indirect` - Windows 推荐，使用 DirectX，平衡性能和兼容性
+- `swiftshader_indirect` - 软件渲染，兼容性最好但性能较低
+- `guest` - 客户端渲染，非常慢，不推荐
+
+#### 常用启动选项
+
+- `-verbose` - 显示详细日志（调试用）
+- `-show-kernel` - 显示内核启动信息（调试用）
+- `-gpu <mode>` - 指定 GPU 模式
 - `-accel kvm` - 启用 KVM 硬件加速（Linux）
 - `-accel whpx` - 启用 WHPX 硬件加速（Windows Hyper-V）
 - `-accel hvf` - 启用 HVF 硬件加速（macOS）
-- `-audio pulse` - 使用 PulseAudio（Linux）
 - `-no-window` - 无窗口模式（后台运行）
 - `-port 5554` - 指定 ADB 端口（默认 5554）
-
-### 4. 检查模拟器状态
-
-#### 等待模拟器就绪
-
-```bash
-# 轮询检查设备状态，直到显示 "device"
-while [ "$(adb shell getprop sys.boot_completed 2>/dev/null)" != "1" ]; do
-  echo "等待启动..."
-  sleep 2
-done
-echo "✓ 模拟器已就绪"
-```
-
-或简单方法：
-```bash
-# 检查 adb 设备列表
-adb devices
-
-# 预期输出：
-# emulator-5554   device
-```
-
-#### 连接到特定模拟器
-
-```bash
-# 如果运行多个模拟器，指定端口
-adb -s emulator-5554 shell
-```
+- `-memory <size>` - 覆盖内存大小（如 `-memory 6144`）
+ 
 
 ### 5. 删除 AVD
 
+**使用 avdmanager（推荐）：**
+```bash
+avdmanager delete avd -n my_emulator
+```
+
+**手动删除：**
+
+Linux/macOS:
 ```bash
 # 列出所有 AVD
 emulator -list-avds
@@ -192,62 +273,19 @@ rm -rf ~/.android/avd/my_emulator.avd
 rm ~/.android/avd/my_emulator.ini
 ```
 
-### 6. 常用 ADB 命令
+Windows (PowerShell):
+```powershell
+# 列出所有 AVD
+emulator -list-avds
 
-```bash
-# 列出所有设备
-adb devices
-
-# 连接到模拟器 shell
-adb shell
-
-# 安装应用
-adb install /path/to/app.apk
-
-# 查看日志
-adb logcat
-
-# 取出文件
-adb pull /sdcard/file.txt ./
-
-# 推送文件
-adb push ./file.txt /sdcard/
-
-# 重启模拟器
-adb reboot
-
-# 关闭 adb 服务
-adb kill-server
-
-# 启动 adb 服务
-adb start-server
+# 删除特定 AVD
+Remove-Item -Recurse -Force "$env:USERPROFILE\.android\avd\my_emulator.avd"
+Remove-Item -Force "$env:USERPROFILE\.android\avd\my_emulator.ini"
 ```
 
-## 故障排除
+### 问题：硬件加速不可用
 
-### 问题：avdmanager create 显示 "Package path is not valid"
-
-**原因：** SDK 包清单未识别系统镜像，或 sdkmanager 未正确注册包。
-
-**解决方案：**
-1. 使用手动创建 AVD 的方法（见上面第 2 节）
-2. 验证系统镜像目录存在：
-   ```bash
-   ls -la $ANDROID_HOME/system-images/android-36/google_apis_playstore/x86_64/
-   ```
-
-### 问题：emulator 启动失败或卡住
-
-**解决方案：**
-```bash
-# 用详细日志启动
-emulator -avd my_emulator -verbose -show-kernel 2>&1 | tee emulator.log
-
-# 检查日志找到具体错误
-```
-
-### 问题：KVM 不可用（Linux）
-
+**Linux (KVM):**
 ```bash
 # 启用 KVM
 sudo modprobe kvm-intel  # Intel CPU
@@ -257,6 +295,16 @@ sudo modprobe kvm-amd    # AMD CPU
 sudo usermod -a -G kvm $USER
 # 注销并重新登录生效
 ```
+
+**Windows (WHPX):**
+1. 确保启用了 Hyper-V 和 Windows Hypervisor Platform
+2. 在"启用或关闭 Windows 功能"中勾选：
+   - Hyper-V
+   - Windows Hypervisor Platform
+3. 重启计算机
+
+**macOS (HVF):**
+- macOS 10.10+ 自动支持 HVF，无需额外配置
 
 ### 问题：GPU 加速导致崩溃
 
